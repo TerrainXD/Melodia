@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Music Generator</title>
+</head>
+<body>
+    <h1>AI Music Generator</h1>
+
+    <!-- ปุ่ม Generate Music -->
+    <button id="generateButton">Generate Music</button>
+
+    <!-- ส่วนสำหรับแสดงลิงก์ฟังเพลงและดาวน์โหลด -->
+    <div id="result">
+        <p id="music-link"></p> <!-- แสดงลิงก์สำหรับดาวน์โหลดเพลง -->
+        <audio id="music-player" controls style="display: none;"></audio> <!-- Player ฟังเพลง -->
+    </div>
+
+    <!-- สคริปต์สำหรับการทำงาน -->
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            document.getElementById('music-link').textContent = "Generating music...";
+            document.getElementById('music-player').style.display = "none"; // ซ่อน player ก่อน
+
+            // ส่งคำขอไปยัง backend เพื่อสร้างเพลง
+            fetch('/generate', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Received data from backend:", data);  // พิมพ์ข้อมูลที่ได้รับจาก backend
+
+                if (data.mp3_url) {
+                    const musicLink = document.getElementById('music-link');
+                    const musicPlayer = document.getElementById('music-player');
+
+                    // แสดง player ฟังเพลง
+                    musicPlayer.src = data.mp3_url;
+                    musicPlayer.style.display = "block";
+                    console.log("MP3 Player Source:", data.mp3_url);  // พิมพ์ source ของ player เพื่อตรวจสอบ
+
+                    // เพิ่มลิงก์ดาวน์โหลด
+                    musicLink.innerHTML = `<a href="${data.mp3_url}" download>Download Generated Music</a>`;
+                } else {
+                    document.getElementById('music-link').textContent = "Error generating music.";
+                }
+            })
+            .catch(error => {
+                document.getElementById('music-link').textContent = "Error generating music.";
+                console.error('Error:', error);  // แสดงข้อผิดพลาดในคอนโซล
+            });
+        });
+    </script>    
+</body>
+</html>
