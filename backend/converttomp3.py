@@ -4,7 +4,7 @@ import os
 
 def midi_to_mp3(midi_file_path, mp3_file_path):
     # กำหนด SoundFont
-    sound_font = 'C:\\Users\\aomna\\OneDrive\\Documents\\Year3Sem1\\AI\\melodia\\backend\\soundfont\\SalC5Light2.sf2'
+    sound_font = 'C:\\Users\\aomna\\OneDrive\\Documents\\Year3Sem1\\AI\\melodia\\backend\\soundfont\\FluidR3 GM.sf2'
     fs = FluidSynth(sound_font=sound_font)
 
     # แปลง MIDI เป็น WAV

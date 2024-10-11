@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Create Music</title>
+    <style>
+        /* Spinner animation */
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white border-gray-200">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="/" class="flex items-center space-x-3">
+                <img src="https://e7.pngegg.com/pngimages/477/216/png-clipart-musical-note-eighth-note-musical-note-rectangle-monochrome.png" class="h-8" alt="Melodia Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap">Melodia</span>
+            </a>
+            <div class="hidden w-full md:block md:w-auto">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+                    <li>
+                        <a href="/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Home</a>
+                    </li>
+                    <li>
+                        <a href="/custom" class="block py-2 px-3 text-blue-700 rounded">Create Music</a>
+                    </li>
+                    <li>
+                        <a href="/faq" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">FAQ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">Create Your Music</h1>
+
+        <!-- Form for number of notes -->
+        <form id="musicForm" class="flex flex-col items-center">
+            <label for="numNotes" class="mb-2">Enter the number of notes:</label>
+            <input type="number" id="numNotes" class="border rounded px-4 py-2 mb-4" placeholder="300" required>
+        
+            <label for="instrument" class="mb-2">Choose an instrument:</label>
+            <select id="instrument" class="border rounded px-4 py-2 mb-4">
+                <option value="Piano">Piano</option>
+                <option value="Guitar">Guitar</option>
+                <option value="Violin">Violin</option>
+            </select>
+        
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+                Generate Music
+            </button>
+        </form>        
+        
+        <!-- Loading animation -->
+        <div id="loading" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+            <div class="text-center">
+                <div class="spinner mx-auto"></div>
+                <p class="text-white text-lg mt-4">Generating your music. Please wait.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('musicForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const numNotes = document.getElementById('numNotes').value;
+            const instrument = document.getElementById('instrument').value;
+
+            // Show loading animation
+            document.getElementById('loading').classList.remove('hidden');
+            
+            fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ numNotes: parseInt(numNotes), instrument: instrument })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').classList.add('hidden'); // Hide loading animation
+
+                if (data.mp3_url) {
+                    window.location.href = `/listen?mp3_url=${encodeURIComponent(data.mp3_url)}`; // Redirect to listening page
+                } else {
+                    alert("Error generating music.");
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').classList.add('hidden'); // Hide loading animation
+                alert("Error generating music.");
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
