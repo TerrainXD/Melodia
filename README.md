@@ -12,6 +12,9 @@ To get started with Melodia, you need to install the following libraries:
 - **TensorFlow**: An open-source platform for machine learning.
 - **NumPy**: A library for numerical computations in Python.
 - **music21**: A toolkit for computer-aided musicology.
+- **Fluid**
+- **ffmpeg**
+- **chocolatey**
 
 ## How to run
 

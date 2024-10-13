@@ -3,42 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>AI Music Generator</title>
+    <title>Melodia</title>
+    <style>
+        
+        .custom-font {
+            font-family: 'Fascinate Inline', cursive;
+        }
+
+        /* Custom gradient to match the background color in the image */
+        .custom-gradient {
+            background: linear-gradient(to bottom, #033A41, #061F22, #000000, #000000, #000000, #061F22, #033A41);
+        }
+
+        /* Typing animation */
+        .typewriter {
+            width: 22ch;
+            margin: 0 auto;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.15em solid white;
+            animation: typing 8s steps(22) infinite, blink-caret 0.75s step-end infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes typing {
+            0% { width: 0 }
+            70% { width: 22ch }
+            100% { width: 22ch }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
+        }
+
+        .spacer {
+            margin-bottom: 2rem;
+        }
+
+        /* Keyframes for moving the icon up and down */
+        @keyframes moveUpDown {
+            0%, 100% {
+                transform: translateY(0); /* Default position */
+            }
+            50% {
+                transform: translateY(-10px); /* Move up by 10px */
+            }
+        }
+
+        /* Class for the animation */
+        .animate-icon {
+            animation: moveUpDown 2s infinite; /* 2 seconds duration, infinite loop */
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body class="custom-gradient h-screen overflow-hidden">
     <!-- Navigation Bar -->
-    <nav class="bg-white border-gray-200">
+    <nav class="bg-transparent">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3">
-                <img src="https://e7.pngegg.com/pngimages/477/216/png-clipart-musical-note-eighth-note-musical-note-rectangle-monochrome.png" class="h-8" alt="Melodia Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap">Melodia</span>
+            <a href="/" class="flex items-center space-x-3">
+                <img src="https://www.shareicon.net/download/2016/06/06/776823_multimedia_512x512.png" alt="Music Icon" class="animate-icon h-8" />
+                <span class="self-center text-2xl text-white font-semibold whitespace-nowrap custom-font">Melodia</span> <!-- ฟอนต์ Fascinate Inline ใช้ที่นี่ -->
             </a>
             <div class="hidden w-full md:block md:w-auto">
-                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg bg-transparent md:flex-row md:space-x-8 md:mt-0 md:bg-transparent">
                     <li>
-                        <a href="/" class="block py-2 px-3 text-blue-700 rounded">Home</a>
+                        <a href="/" class="block py-2 px-3 text-black rounded">Home</a>
                     </li>
                     <li>
-                        <a href="/custom" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Create Music</a>
+                        <a href="/custom" class="block py-2 px-3 text-white rounded hover:bg-gray-700">Create Music</a>
                     </li>
                     <li>
-                        <a href="/faq" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">FAQ</a>
+                        <a href="/faq" class="block py-2 px-3 text-white rounded hover:bg-gray-700">FAQ</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mx-auto p-6">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">Welcome to AI Music Generator</h1>
+    <div class="flex flex-col items-center justify-center h-screen pb-36">
+        <span class="self-center text-lg text-white font-semibold">The #1 Music Tool for creators and artists</span>
+
+        <div class="spacer"></div> <!-- Spacer for added gap above the typing animation -->
+        <div class="typewriter text-6xl font-bold text-white text-center mb-6">
+            Create Tracks With AI For
+        </div>
+        <div class="spacer"></div> <!-- Spacer for added gap below the typing animation -->
 
         <!-- ปุ่มไปยังหน้าสร้างเพลง -->
-        <div class="flex justify-center">
-            <a href="/custom" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
-                Go to Create Music
-            </a>
-        </div>
+        <a href="/custom" style="background-color: #06A0B5; color: white;" class="text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-200">
+            LET'S GENERATE MUSIC
+        </a>
+
+        <span class="self-center text-sm text-gray-300 font-semibold p-10 text-center">
+        Create unique songs in just a few clicks. Generate unlimited royalty-free music to use in your songs, projects and videos. Distribute your music anywhere and earn money on the royalties forever.
+        </span>
     </div>
+    
 </body>
 </html>

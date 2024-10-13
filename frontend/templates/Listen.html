@@ -3,28 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Listen to Your Music</title>
+    <style>
+        /* Keyframes for moving the icon up and down */
+        @keyframes moveUpDown {
+            0%, 100% {
+                transform: translateY(0); /* Default position */
+            }
+            50% {
+                transform: translateY(-10px); /* Move up by 10px */
+            }
+        }
+
+        /* Class for the animation */
+        .animate-icon {
+            animation: moveUpDown 2s infinite; /* 2 seconds duration, infinite loop */
+        }
+
+        .custom-font {
+            font-family: 'Fascinate Inline', cursive;
+        }
+
+        /* Custom gradient */
+        .custom-gradient {
+            background: linear-gradient(to bottom, #033A41, #061F22, #000000, #000000, #000000, #061F22, #033A41);
+        }
+
+        /* Audio player styling */
+        .audio-player-container {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .audio-timeline {
+            background-color: #1e3a8a; /* Blue color */
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+        }
+
+        .audio-timeline-filled {
+            background-color: #06A0B5; /* Light blue for progress */
+            height: 100%;
+            border-radius: inherit;
+        }
+
+        /* Play button styling */
+        .play-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .play-btn img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .download-btn {
+            background-color: #06A0B5;
+            color: white;
+            padding: 2px 20px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin: 20px auto;
+            width: 240px;
+            text-align: center;
+            white-space: nowrap; /* Ensure text stays on one line */
+        }
+
+        .back-link {
+            display: block;
+            color: #06A0B5;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center min-h-screen">
+<body class="custom-gradient h-screen overflow-hidden">
 
     <!-- Navbar -->
-    <nav class="bg-white border-gray-200 w-full">
+    <nav class="bg-transparent">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3">
-                <img src="https://e7.pngegg.com/pngimages/477/216/png-clipart-musical-note-eighth-note-musical-note-rectangle-monochrome.png" class="h-8" alt="Melodia Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap">Melodia</span>
+                <img src="https://www.shareicon.net/download/2016/06/06/776823_multimedia_512x512.png" alt="Music Icon" class="animate-icon h-8" />
+                <span class="self-center text-2xl text-white font-semibold whitespace-nowrap custom-font">Melodia</span>
             </a>
             <div class="hidden w-full md:block md:w-auto">
-                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg bg-transparent md:flex-row md:space-x-8 md:mt-0 md:bg-transparent">
                     <li>
-                        <a href="/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Home</a>
+                        <a href="/" class="block py-2 px-3 text-white rounded hover:bg-gray-700">Home</a>
                     </li>
                     <li>
-                        <a href="/custom" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">Create Music</a>
+                        <a href="/custom" class="block py-2 px-3 text-white rounded hover:bg-gray-700">Create Music</a>
                     </li>
                     <li>
-                        <a href="/faq" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100">FAQ</a>
+                        <a href="/faq" class="block py-2 px-3 text-white rounded hover:bg-gray-700">FAQ</a>
                     </li>
                 </ul>
             </div>
@@ -32,28 +113,29 @@
     </nav>
 
     <!-- Content -->
-    <div class="text-center mt-12">
-        <h1 class="text-4xl font-bold text-gray-800 mb-6">Listen to Your Music</h1>
+    <div class="flex flex-col items-center justify-center h-screen pb-36">
+        <h1 class="text-4xl font-bold text-white mb-6">Listen to Your Music</h1>
 
         <!-- Music Player -->
-        <div class="mb-6">
-            <audio id="music-player" controls class="w-80 mx-auto">
+        <div class="audio-player-container">
+            <div>
+                <img src="https://img.freepik.com/premium-vector/music-sound-waves-set-isolated-white-background-audio-equalizer-technology-pulse-musical-vector-illustration_736051-13.jpg" alt="Audio Image" class="w-100 h-60 mx-auto mb-6" />
+            </div>
+
+            <audio id="music-player" controls class="w-full">
                 <source id="music-source" src="" type="audio/mp3">
                 Your browser does not support the audio element.
             </audio>
-        </div>
+            
+            <!-- Download Button -->
+            <div class="download-btn">
+                <img src="https://pixsector.com/cache/5d353540/av3544fca9fdc10112f68.png" alt="Download Icon" class=" w-12 h-12 mr-2"/>
+                <a id="download-link" href="" download>DOWNLOAD MUSIC</a>
+            </div>
 
-        <!-- Download Button -->
-        <div class="mb-4">
-            <a id="download-link" href="" download class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
-                Download Music
-            </a>
+            <!-- Back Button -->
+            <a href="/custom" class="back-link">← Back to edit</a>
         </div>
-
-        <!-- Back Button -->
-        <a href="/custom" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200">
-            Go Back to Custom
-        </a>
     </div>
 
     <script>
