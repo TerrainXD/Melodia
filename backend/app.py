@@ -31,9 +31,10 @@ def generate():
     data = request.get_json()
     num_notes = int(data.get('numNotes', 500))  # Default to 500 notes if not provided
     instrument_name = data.get('instrument', 'Piano')  # Default to Piano if not provided
+    speed = float(data.get('speed', 1.0))  # Default speed is 1.0 (Normal speed)
 
     try:
-        midi_file_path = generate_music(num_notes, instrument_name)  # Pass instrument to the function
+        midi_file_path = generate_music(num_notes, instrument_name, speed)  # Pass instrument to the function
         if midi_file_path and os.path.exists(midi_file_path):
             mp3_file_path = midi_to_mp3(midi_file_path, midi_file_path.replace('.mid', '.mp3'))
             return jsonify({'mp3_url': '/static/generated_music.mp3'})

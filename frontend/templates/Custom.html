@@ -32,16 +32,10 @@
             background: linear-gradient(to bottom, #033A41, #061F22, #000000, #000000, #000000, #061F22, #033A41);
         }
 
-        /* Selected button styling */
-        .selected {
-            background-color: #8A9A9D; /* Gray color for selected button */
-            color: black;
-        }
-
         /* Spinner animation */
         .spinner {
             border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
+            border-top: 8px solid #06A0B5;
             border-radius: 50%;
             width: 80px;
             height: 80px;
@@ -51,6 +45,17 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .instrument-btn:hover, .speed-btn:hover {
+            background-color: #06A0B5;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .instrument-btn.selected, .speed-btn.selected {
+            background-color: #06A0B5;
+            color: white;
         }
 
     </style>
@@ -99,13 +104,26 @@
                     <button type="button" class="instrument-btn border rounded px-4 py-2 bg-transparent text-white" data-instrument="Guitar">Guitar</button>
                     <button type="button" class="instrument-btn border rounded px-4 py-2 bg-transparent text-white" data-instrument="Violin">Violin</button>
                 </div>
-    
+
+                <!-- Speed Selection -->
+                <label for="speed" style="color: #06A0B5;" class="mb-2">Tempos used to generate tracks:</label>
+                <div class="flex space-x-4 mb-6">
+                    <button type="button" class="speed-btn border rounded px-4 py-2 bg-transparent text-white" data-speed="0.8">Slow</button>
+                    <button type="button" class="speed-btn border rounded px-4 py-2 bg-transparent text-white " data-speed="1.0">Normal</button>
+                    <button type="button" class="speed-btn border rounded px-4 py-2 bg-transparent text-white" data-speed="1.2">Fast</button>
+                </div>
+
                 <!-- Submit Button -->
-                <button type="submit" style="background-color: #06A0B5; color: white;" class=" text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-200">
-                    Start Customizing
+                <!-- Submit Button -->
+                <button type="submit" 
+                style="background-color: #06A0B5; color: white; transition: background-color 0.3s ease;"
+                onmouseover="this.style.backgroundColor='#048B9A';" 
+                onmouseout="this.style.backgroundColor='#06A0B5';" 
+                class="text-white px-6 py-3 rounded-full">
+                Start Customizing
                 </button>
             </form>
-    
+
             <!-- Loading animation -->
             <div id="loading" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
                 <div class="text-center">
@@ -114,57 +132,76 @@
                 </div>
             </div>
         </div>
-    
-        <script>
-            let selectedInstrument = null;
+    </div>
 
-            // Handle instrument selection
-            const instrumentButtons = document.querySelectorAll('.instrument-btn');
-            instrumentButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove 'selected' class from all buttons
-                    instrumentButtons.forEach(btn => btn.classList.remove('selected'));
-                    // Add 'selected' class to the clicked button
-                    button.classList.add('selected');
-                    selectedInstrument = button.getAttribute('data-instrument');
-                });
+    <script>
+        let selectedInstrument = null;
+        let selectedSpeed = "1.0"; // Default speed
+    
+        // Handle speed selection
+        const speedButtons = document.querySelectorAll('.speed-btn');
+        speedButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                speedButtons.forEach(btn => btn.classList.remove('selected'));
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
+                selectedSpeed = button.getAttribute('data-speed');  // Update selected speed
             });
-
-            document.getElementById('musicForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const numNotes = document.getElementById('numNotes').value;
-
-                if (!selectedInstrument) {
-                    alert("Please select an instrument.");
-                    return;
-                }
-
-                // Show loading animation
-                document.getElementById('loading').classList.remove('hidden');
-
-                fetch('/generate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ numNotes: parseInt(numNotes), instrument: selectedInstrument })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('loading').classList.add('hidden'); // Hide loading animation
+        });
     
-                    if (data.mp3_url) {
-                        window.location.href = `/listen?mp3_url=${encodeURIComponent(data.mp3_url)}`; // Redirect to listening page
-                    } else {
-                        alert("Error generating music.");
-                    }
+        // Handle instrument selection
+        const instrumentButtons = document.querySelectorAll('.instrument-btn');
+        instrumentButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                instrumentButtons.forEach(btn => btn.classList.remove('selected'));
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
+                selectedInstrument = button.getAttribute('data-instrument');  // Update selected instrument
+            });
+        });
+    
+        document.getElementById('musicForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const numNotes = document.getElementById('numNotes').value;
+    
+            if (!selectedInstrument) {
+                alert("Please select an instrument.");
+                return;
+            }
+    
+            // Show loading animation
+            document.getElementById('loading').classList.remove('hidden');
+    
+            // Send the request to backend with selected speed, instrument, and number of notes
+            fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    numNotes: parseInt(numNotes), 
+                    instrument: selectedInstrument,
+                    speed: selectedSpeed  // Send the selected speed value
                 })
-                .catch(error => {
-                    document.getElementById('loading').classList.add('hidden'); // Hide loading animation
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').classList.add('hidden'); // Hide loading animation
+    
+                if (data.mp3_url) {
+                    window.location.href = `/listen?mp3_url=${encodeURIComponent(data.mp3_url)}`; // Redirect to listening page
+                } else {
                     alert("Error generating music.");
-                    console.error('Error:', error);
-                });
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').classList.add('hidden'); // Hide loading animation
+                alert("Error generating music.");
+                console.error('Error:', error);
             });
-        </script>
+        });
+    </script>        
 </body>
 </html>

@@ -31,53 +31,6 @@
             background: linear-gradient(to bottom, #033A41, #061F22, #000000, #000000, #000000, #061F22, #033A41);
         }
 
-        /* Audio player styling */
-        .audio-player-container {
-            width: 300px;
-            margin: 0 auto;
-        }
-
-        .audio-timeline {
-            background-color: #1e3a8a; /* Blue color */
-            border-radius: 10px;
-            height: 10px;
-            width: 100%;
-        }
-
-        .audio-timeline-filled {
-            background-color: #06A0B5; /* Light blue for progress */
-            height: 100%;
-            border-radius: inherit;
-        }
-
-        /* Play button styling */
-        .play-btn {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .play-btn img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .download-btn {
-            background-color: #06A0B5;
-            color: white;
-            padding: 2px 20px;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            margin: 20px auto;
-            width: 240px;
-            text-align: center;
-            white-space: nowrap; /* Ensure text stays on one line */
-        }
-
         .back-link {
             display: block;
             color: #06A0B5;
@@ -119,7 +72,8 @@
         <!-- Music Player -->
         <div class="audio-player-container">
             <div>
-                <img src="https://img.freepik.com/premium-vector/music-sound-waves-set-isolated-white-background-audio-equalizer-technology-pulse-musical-vector-illustration_736051-13.jpg" alt="Audio Image" class="w-100 h-60 mx-auto mb-6" />
+                <!-- <img src="https://img.freepik.com/premium-vector/music-sound-waves-set-isolated-white-background-audio-equalizer-technology-pulse-musical-vector-illustration_736051-13.jpg" alt="Audio Image" class="w-100 h-60 mx-auto mb-6" /> -->
+                <img src="https://i.pinimg.com/originals/50/63/40/506340322a825d8df9561c9f47fdf1ec.gif" alt="Audio Image" class="w-100 h-60 mx-auto mb-6" />
             </div>
 
             <audio id="music-player" controls class="w-full">
@@ -128,10 +82,16 @@
             </audio>
             
             <!-- Download Button -->
-            <div class="download-btn">
-                <img src="https://pixsector.com/cache/5d353540/av3544fca9fdc10112f68.png" alt="Download Icon" class=" w-12 h-12 mr-2"/>
-                <a id="download-link" href="" download>DOWNLOAD MUSIC</a>
+            <div class="download-btn flex items-center justify-center pt-6">
+                <a id="download-link" href="" download
+                    style="background-color: #06A0B5; color: white; padding: 2px 20px; border-radius: 50px; text-decoration: none; display: flex; align-items: center; transition: background-color 0.3s ease;"
+                    onmouseover="this.style.backgroundColor='#048B9A';" 
+                    onmouseout="this.style.backgroundColor='#06A0B5';">
+                    <img src="https://pixsector.com/cache/5d353540/av3544fca9fdc10112f68.png" alt="Download Icon" class="w-12 h-12 mr-2"/>
+                    DOWNLOAD MUSIC
+                </a>
             </div>
+
 
             <!-- Back Button -->
             <a href="/custom" class="back-link">← Back to edit</a>

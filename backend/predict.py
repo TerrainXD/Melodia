@@ -1,10 +1,10 @@
 import pickle
 import numpy
-from music21 import instrument, note, stream, chord
+from music21 import instrument, note, stream, chord, tempo
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, LSTM, BatchNormalization as BatchNorm, Activation
 
-def generate_music(num_notes=500, instrument_name='Piano'):
+def generate_music(num_notes=500, instrument_name='Piano', speed=1.0):
     """ Generate a midi file with a specific number of notes and instrument """
     with open('backend/datanotes/notes', 'rb') as filepath:
         notes = pickle.load(filepath)
@@ -16,7 +16,7 @@ def generate_music(num_notes=500, instrument_name='Piano'):
     model = create_network(normalized_input, n_vocab)
     prediction_output = generate_notes(model, network_input, pitchnames, n_vocab, num_notes)
     
-    midi_file_path = create_midi(prediction_output, instrument_name)
+    midi_file_path = create_midi(prediction_output, instrument_name, speed)
     return midi_file_path
 
 
@@ -84,7 +84,7 @@ def generate_notes(model, network_input, pitchnames, n_vocab, num_notes):
 
     return prediction_output
 
-def create_midi(prediction_output, instrument_name):
+def create_midi(prediction_output, instrument_name, speed):
     """ Convert the output from the prediction to notes and create a midi file """
     offset = 0
     output_notes = []
@@ -96,6 +96,10 @@ def create_midi(prediction_output, instrument_name):
         'Violin': instrument.Violin()
     }
     chosen_instrument = instrument_map.get(instrument_name, instrument.Piano())  # Default to Piano
+
+    bpm = 120 * speed
+
+    tempo_mark = tempo.MetronomeMark(number=bpm)
 
     for pattern in prediction_output:
         if ('.' in pattern) or pattern.isdigit():
@@ -117,6 +121,7 @@ def create_midi(prediction_output, instrument_name):
         offset += 0.5
 
     midi_stream = stream.Stream(output_notes)
+    midi_stream.insert(0, tempo_mark)
     midi_stream.insert(0, chosen_instrument)  # Insert chosen instrument at the beginning
     midi_file_path = 'backend/static/generated_music.mid'
     midi_stream.write('midi', fp=midi_file_path)
