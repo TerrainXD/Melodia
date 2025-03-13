@@ -36,7 +36,9 @@ Make sure you have the following libraries and tools installed:
 **Clone the repository**:
    ```bash
    git clone https://github.com/aomnak/Melodia.git
+
    cd melodia
+   ```
 
 ## 🏃 How to Run
 - cd backend
