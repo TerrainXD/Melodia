@@ -33,7 +33,7 @@ Make sure you have the following libraries and tools installed:
 
 ## 🚀 Setup and Installation
 
-1. **Clone the repository**:
+**Clone the repository**:
    ```bash
    git clone https://github.com/aomnak/Melodia.git
    cd melodia
