@@ -41,5 +41,6 @@ Make sure you have the following libraries and tools installed:
    ```
 
 ## 🏃 How to Run
+```bash
 - cd backend
 - python app.py
